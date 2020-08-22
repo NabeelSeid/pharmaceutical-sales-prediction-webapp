@@ -10,7 +10,7 @@ import json
 import sys
 import time
 import pickle
-# port = 8080
+port = 8080
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 # CORS(app)
@@ -26,6 +26,7 @@ model = pickle.load(open('./model.pkl', 'rb'))
 def index():
     return app.send_static_file('index.html')
 
+
 @app.route('/predict', methods=['POST'])
 def predict():
     # if request.method == 'POST':
@@ -36,7 +37,7 @@ def predict():
 
     forecast.to_csv('df.csv', encoding='utf-8', index=False)
     print(forecast.shape)
-    
+
     return Response(forecast.to_json(orient="records"), mimetype='application/json')
 
 
@@ -44,7 +45,7 @@ def predict():
 def plot():
     # if(forecast == None):# send t# send t
     #     abort(404)
-    df = pd.read_csv("./df.csv", parse_dates =['ds'])
+    df = pd.read_csv("./df.csv", parse_dates=['ds'])
 
     fig = Figure()
     axis = fig.add_subplot(1, 1, 1)
@@ -60,4 +61,6 @@ def get_current_time():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get('PORT', 33507))
+    app.run(host='0.0.0.0', port=port)
