@@ -108,8 +108,8 @@ def plot_on_variable(variable, model, data, ax):
         forecast2 = data.groupby('weekOfDay').agg({'weekly': 'mean'})
         forecast2.index = days
         ax1 = forecast2.plot(ax=ax)
-        ax1.set_xlabel("date")
-        ax1.set_ylabel("Day of week")
+        ax1.set_xlabel("Day of week")
+        ax1.set_ylabel("weekly")
     if(variable == 'yearly'):
         ax1 = data.groupby('ds').agg({'yearly': 'sum'}).yearly.plot(ax=ax)
         ax1.set_xlabel("date")
